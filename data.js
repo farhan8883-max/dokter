@@ -29,7 +29,7 @@ $(document).ready(function() {
         const pasien = dataPasien[index];
 
         if (pasien) {
-            window.location.href = `pembayaran.html
+            window.location.href = `pembayaran.html`
         } else {
             alert("Data pasien tidak ditemukan!");
         }
