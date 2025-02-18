@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Antrian Dokter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 2rem;
+            color: #007bff;
+        }
+        h4 {
+            color: #555;
+        }
+        #ambilAntrian {
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 50px;
+        }
+        .loading {
+            display: none;
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+        .alert {
+            display: none;
+        }
+        /* Container untuk slider */
+        .slider {
+            width: 80%; /* Ukuran slider */
+            margin: 0 auto; /* Tengah-kan slider */
+            overflow: hidden; /* Untuk memotong gambar yang berlebihan */
+            border-radius: 15px; /* Membuat sudut slider melengkung */
+            background-color: black;
+        }
+
+        /* Kontainer untuk gambar di dalam slider */
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out; /* Animasi perpindahan gambar */
+        }
+
+        /* Gambar di dalam slider */
+        .slide {
+            width: 100%; /* Setiap gambar mengambil lebar penuh slider */
+            height: 400px; /* Menetapkan tinggi gambar tetap */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Menampilkan gambar dengan ukuran tetap */
+        .slide img {
+            width: 600px; /* Ukuran lebar gambar tetap */
+            height: 400px; /* Ukuran tinggi gambar tetap */
+            object-fit: cover; /* Menjaga proporsi gambar tanpa merusak bentuknya */
+            border-radius: 15px; /* Sudut melengkung pada gambar */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan untuk efek estetis */
+        }
+        .butet{
+            text-align: center;
+            display: flex;
+            justify-self: center;
+        }
+
+        /* Menambahkan animasi untuk slider otomatis */
+        
+
+    </style>
+</head>
+<body>
+    <div class="slides">
+        <div class="slide"><img src="Hospital Building for Healthcare Background Vector Illustration with, Ambulance Car, Doctor, Patient, Nurses and Medical Clinic Exterior.jpeg" alt="Gambar 1"></div>
+    </div>
+    <div class="container mt-4">
+        <h2 class="text-center">Sistem Antrian Dokter</h2>
+        <p class="text-center">Ambil nomor antrian untuk konsultasi dengan dokter.</p>
+        <div class="butet">
+            <button id="ambilAntrian" class="btn btn-primary">Ambil Nomor Antrian</button>
+        </div>
+        <h4 class="mt-3 text-center">Nomor Antrian Anda: <span id="nomorAntrian">-</span></h4>
+
+        <!-- Success Alert -->
+        <div id="successAlert" class="alert alert-success mt-4 text-center" role="alert">
+            Nomor antrian berhasil diambil!
+        </div>
+        
+        <!-- Loading message -->
+        <div id="loadingMessage" class="loading text-center">
+            <p>Memproses...</p>
+        </div>
+    </div>
+
+    <script>
+        let antrian = JSON.parse(localStorage.getItem('antrian')) || [];
+        let currentNumber = antrian.length > 0 ? antrian[antrian.length - 1] + 1 : 1;
+
+        $('#ambilAntrian').click(function() {
+            // Show loading message
+            $('#loadingMessage').show();
+
+            setTimeout(function() {
+                // Add number to queue and save to local storage
+                antrian.push(currentNumber);
+                localStorage.setItem('antrian', JSON.stringify(antrian));
+                localStorage.setItem('currentAntrian', currentNumber);
+
+                // Update the UI with the new number
+                $('#nomorAntrian').text(currentNumber);
+
+                // Show success alert and hide loading message
+                $('#loadingMessage').hide();
+                $('#successAlert').show();
+
+                // Redirect to the next page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'datapasien.html';
+                }, 2000);
+            }, 1000); // Simulate a delay of 1 second
+        });
+    </script>
+</body>
+</html>
